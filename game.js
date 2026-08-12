@@ -139,6 +139,10 @@ function checkBlockCollisions() {
     block.alive = false;
     score += BLOCK_SCORE;
 
+    if ( blocks.every( ( b ) => !b.alive ) ) {
+      gameState = 'win';
+    }
+
     const overlapLeft = ball.x + ball.radius - block.x;
     const overlapRight = block.x + block.width - ( ball.x - ball.radius );
     const overlapTop = ball.y + ball.radius - block.y;
