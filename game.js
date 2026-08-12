@@ -94,6 +94,39 @@ function updateBall() {
   }
 
   checkPaddleCollision();
+  checkBlockCollisions();
+}
+
+const BLOCK_SCORE = 10;
+
+function checkBlockCollisions() {
+  for ( const block of blocks ) {
+    if ( !block.alive ) continue;
+
+    const collides = ball.x + ball.radius > block.x
+      && ball.x - ball.radius < block.x + block.width
+      && ball.y + ball.radius > block.y
+      && ball.y - ball.radius < block.y + block.height;
+
+    if ( !collides ) continue;
+
+    block.alive = false;
+    score += BLOCK_SCORE;
+
+    const overlapLeft = ball.x + ball.radius - block.x;
+    const overlapRight = block.x + block.width - ( ball.x - ball.radius );
+    const overlapTop = ball.y + ball.radius - block.y;
+    const overlapBottom = block.y + block.height - ( ball.y - ball.radius );
+    const minOverlap = Math.min( overlapLeft, overlapRight, overlapTop, overlapBottom );
+
+    if ( minOverlap === overlapTop || minOverlap === overlapBottom ) {
+      ball.dy *= -1;
+    } else {
+      ball.dx *= -1;
+    }
+
+    break;
+  }
 }
 
 function checkPaddleCollision() {
