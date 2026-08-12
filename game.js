@@ -92,6 +92,30 @@ function updateBall() {
     ball.y = ball.radius;
     ball.dy *= -1;
   }
+
+  checkPaddleCollision();
+}
+
+function checkPaddleCollision() {
+  const ballBottom = ball.y + ball.radius;
+  const withinPaddleX = ball.x >= paddle.x && ball.x <= paddle.x + paddle.width;
+  const hitPaddle = ball.dy > 0
+    && ballBottom >= paddle.y
+    && ball.y <= paddle.y + paddle.height
+    && withinPaddleX;
+
+  if ( !hitPaddle ) return;
+
+  ball.y = paddle.y - ball.radius;
+
+  const paddleCenter = paddle.x + paddle.width / 2;
+  const relativeIntersect = ( ball.x - paddleCenter ) / ( paddle.width / 2 );
+  const speed = Math.hypot( ball.dx, ball.dy );
+  const maxBounceAngle = Math.PI * 0.4;
+  const bounceAngle = relativeIntersect * maxBounceAngle;
+
+  ball.dx = speed * Math.sin( bounceAngle );
+  ball.dy = -speed * Math.cos( bounceAngle );
 }
 
 function update() {
