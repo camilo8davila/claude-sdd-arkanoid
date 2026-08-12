@@ -1,0 +1,84 @@
+const canvas = document.getElementById( 'gameCanvas' );
+const ctx = canvas.getContext( '2d' );
+
+const paddle = {
+  x: canvas.width / 2 - SPRITES.paddle.sw / 2,
+  y: canvas.height - 40,
+  width: SPRITES.paddle.sw,
+  height: SPRITES.paddle.sh,
+  speed: 7,
+};
+
+const ball = {
+  x: canvas.width / 2,
+  y: paddle.y - SPRITES.ball.sh / 2,
+  dx: 0,
+  dy: 0,
+  radius: SPRITES.ball.sw / 2,
+};
+
+let lives = 3;
+let score = 0;
+
+const BLOCK_ROW_COLORS = [ 'red', 'yellow', 'cyan', 'magenta', 'hotpink', 'green', 'gray' ];
+const BLOCK_ROWS = BLOCK_ROW_COLORS.length;
+const BLOCK_COLS = 15;
+const BLOCK_PADDING = 4;
+const BLOCK_WIDTH = 32;
+const BLOCK_HEIGHT = 16;
+const BLOCK_OFFSET_TOP = 60;
+const BLOCK_OFFSET_LEFT = ( canvas.width - ( BLOCK_COLS * ( BLOCK_WIDTH + BLOCK_PADDING ) - BLOCK_PADDING ) ) / 2;
+
+function createBlocks() {
+  const blocks = [];
+  for ( let row = 0; row < BLOCK_ROWS; row++ ) {
+    for ( let col = 0; col < BLOCK_COLS; col++ ) {
+      blocks.push( {
+        x: BLOCK_OFFSET_LEFT + col * ( BLOCK_WIDTH + BLOCK_PADDING ),
+        y: BLOCK_OFFSET_TOP + row * ( BLOCK_HEIGHT + BLOCK_PADDING ),
+        width: BLOCK_WIDTH,
+        height: BLOCK_HEIGHT,
+        color: BLOCK_ROW_COLORS[ row ],
+        alive: true,
+      } );
+    }
+  }
+  return blocks;
+}
+
+let blocks = createBlocks();
+
+function update() {
+}
+
+function drawHud() {
+  ctx.fillStyle = '#fff';
+  ctx.font = '18px sans-serif';
+  ctx.textBaseline = 'top';
+  ctx.fillText( `Puntaje: ${ score }`, 10, 10 );
+  ctx.fillText( `Vidas: ${ lives }`, canvas.width - 100, 10 );
+}
+
+function draw() {
+  ctx.clearRect( 0, 0, canvas.width, canvas.height );
+
+  blocks.forEach( ( block ) => {
+    if ( !block.alive ) return;
+    drawSprite( ctx, `block_${ block.color }`, block.x, block.y, block.width, block.height );
+  } );
+
+  drawSprite( ctx, 'paddle', paddle.x, paddle.y, paddle.width, paddle.height );
+  drawSprite( ctx, 'ball', ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2 );
+
+  drawHud();
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame( loop );
+}
+
+loadSpritesheet( () => {
+  loop();
+} );
