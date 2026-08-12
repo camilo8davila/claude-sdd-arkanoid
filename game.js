@@ -12,8 +12,8 @@ const paddle = {
 const ball = {
   x: canvas.width / 2,
   y: paddle.y - SPRITES.ball.sh / 2,
-  dx: 0,
-  dy: 0,
+  dx: 4,
+  dy: -4,
   radius: SPRITES.ball.sw / 2,
 };
 
@@ -76,8 +76,27 @@ function updatePaddle() {
   paddle.x = clamp( paddle.x, 0, canvas.width - paddle.width );
 }
 
+function updateBall() {
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  if ( ball.x - ball.radius <= 0 ) {
+    ball.x = ball.radius;
+    ball.dx *= -1;
+  } else if ( ball.x + ball.radius >= canvas.width ) {
+    ball.x = canvas.width - ball.radius;
+    ball.dx *= -1;
+  }
+
+  if ( ball.y - ball.radius <= 0 ) {
+    ball.y = ball.radius;
+    ball.dy *= -1;
+  }
+}
+
 function update() {
   updatePaddle();
+  updateBall();
 }
 
 function drawHud() {
