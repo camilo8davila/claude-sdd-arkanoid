@@ -10,15 +10,26 @@ const paddle = {
 };
 
 const ball = {
-  x: canvas.width / 2,
-  y: paddle.y - SPRITES.ball.sh / 2,
-  dx: 4,
-  dy: -4,
+  x: 0,
+  y: 0,
+  dx: 0,
+  dy: 0,
   radius: SPRITES.ball.sw / 2,
 };
 
+function resetPaddleAndBall() {
+  paddle.x = canvas.width / 2 - paddle.width / 2;
+  ball.x = canvas.width / 2;
+  ball.y = paddle.y - ball.radius;
+  ball.dx = 4;
+  ball.dy = -4;
+}
+
+resetPaddleAndBall();
+
 let lives = 3;
 let score = 0;
+let gameState = 'playing';
 
 const BLOCK_ROW_COLORS = [ 'red', 'yellow', 'cyan', 'magenta', 'hotpink', 'green', 'gray' ];
 const BLOCK_ROWS = BLOCK_ROW_COLORS.length;
@@ -95,6 +106,21 @@ function updateBall() {
 
   checkPaddleCollision();
   checkBlockCollisions();
+
+  if ( ball.y - ball.radius > canvas.height ) {
+    loseLife();
+  }
+}
+
+function loseLife() {
+  lives -= 1;
+
+  if ( lives <= 0 ) {
+    gameState = 'gameover';
+    return;
+  }
+
+  resetPaddleAndBall();
 }
 
 const BLOCK_SCORE = 10;
@@ -152,6 +178,7 @@ function checkPaddleCollision() {
 }
 
 function update() {
+  if ( gameState !== 'playing' ) return;
   updatePaddle();
   updateBall();
 }
