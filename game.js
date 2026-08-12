@@ -48,7 +48,36 @@ function createBlocks() {
 
 let blocks = createBlocks();
 
+const keys = { left: false, right: false };
+
+document.addEventListener( 'keydown', ( e ) => {
+  if ( e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A' ) keys.left = true;
+  if ( e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D' ) keys.right = true;
+} );
+
+document.addEventListener( 'keyup', ( e ) => {
+  if ( e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A' ) keys.left = false;
+  if ( e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D' ) keys.right = false;
+} );
+
+canvas.addEventListener( 'mousemove', ( e ) => {
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = ( e.clientX - rect.left ) * ( canvas.width / rect.width );
+  paddle.x = clamp( mouseX - paddle.width / 2, 0, canvas.width - paddle.width );
+} );
+
+function clamp( value, min, max ) {
+  return Math.max( min, Math.min( max, value ) );
+}
+
+function updatePaddle() {
+  if ( keys.left ) paddle.x -= paddle.speed;
+  if ( keys.right ) paddle.x += paddle.speed;
+  paddle.x = clamp( paddle.x, 0, canvas.width - paddle.width );
+}
+
 function update() {
+  updatePaddle();
 }
 
 function drawHud() {
