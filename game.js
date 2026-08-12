@@ -19,8 +19,13 @@ const ball = {
 
 function resetPaddleAndBall() {
   paddle.x = canvas.width / 2 - paddle.width / 2;
-  ball.x = canvas.width / 2;
+  ball.x = paddle.x + paddle.width / 2;
   ball.y = paddle.y - ball.radius;
+  ball.dx = 0;
+  ball.dy = 0;
+}
+
+function launchBall() {
   ball.dx = 4;
   ball.dy = -4;
 }
@@ -29,7 +34,7 @@ resetPaddleAndBall();
 
 let lives = 3;
 let score = 0;
-let gameState = 'playing';
+let gameState = 'start';
 
 const BLOCK_ROW_COLORS = [ 'red', 'yellow', 'cyan', 'magenta', 'hotpink', 'green', 'gray' ];
 const BLOCK_ROWS = BLOCK_ROW_COLORS.length;
@@ -75,6 +80,13 @@ canvas.addEventListener( 'mousemove', ( e ) => {
   const rect = canvas.getBoundingClientRect();
   const mouseX = ( e.clientX - rect.left ) * ( canvas.width / rect.width );
   paddle.x = clamp( mouseX - paddle.width / 2, 0, canvas.width - paddle.width );
+} );
+
+canvas.addEventListener( 'click', () => {
+  if ( gameState === 'start' ) {
+    gameState = 'playing';
+    launchBall();
+  }
 } );
 
 function clamp( value, min, max ) {
@@ -182,8 +194,16 @@ function checkPaddleCollision() {
 }
 
 function update() {
-  if ( gameState !== 'playing' ) return;
+  if ( gameState === 'gameover' || gameState === 'win' ) return;
+
   updatePaddle();
+
+  if ( gameState === 'start' ) {
+    ball.x = paddle.x + paddle.width / 2;
+    ball.y = paddle.y - ball.radius;
+    return;
+  }
+
   updateBall();
 }
 
@@ -207,6 +227,26 @@ function draw() {
   drawSprite( ctx, 'ball', ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2 );
 
   drawHud();
+
+  if ( gameState === 'start' ) {
+    drawStartScreen();
+  }
+}
+
+function drawStartScreen() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+  ctx.fillRect( 0, 0, canvas.width, canvas.height );
+
+  ctx.fillStyle = '#fff';
+  ctx.textAlign = 'center';
+
+  ctx.font = '36px sans-serif';
+  ctx.fillText( 'Arkanoid', canvas.width / 2, canvas.height / 2 - 60 );
+
+  ctx.font = '20px sans-serif';
+  ctx.fillText( 'Haz clic para jugar', canvas.width / 2, canvas.height / 2 );
+
+  ctx.textAlign = 'left';
 }
 
 function loop() {
