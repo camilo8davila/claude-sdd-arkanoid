@@ -201,7 +201,15 @@ function checkBlockCollisions() {
     } );
 
     if ( blocks.every( ( b ) => !b.alive ) ) {
-      gameState = 'win';
+      if ( levelIndex < LEVELS.length - 1 ) {
+        levelIndex += 1;
+        blocks = createBlocks( levelIndex );
+        explosions = [];
+        resetPaddleAndBall();
+        gameState = 'start';
+      } else {
+        gameState = 'win';
+      }
     }
 
     const overlapLeft = ball.x + ball.radius - block.x;
