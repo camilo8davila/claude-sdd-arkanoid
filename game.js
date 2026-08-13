@@ -103,6 +103,15 @@ document.addEventListener( 'keydown', ( e ) => {
   if ( e.key === 'p' || e.key === 'P' || e.key === 'Escape' ) togglePause();
 } );
 
+levelSelect.addEventListener( 'change', () => {
+  levelIndex = Number( levelSelect.value );
+  blocks = createBlocks( levelIndex );
+  resetPaddleAndBall();
+  explosions = [];
+  levelSelect.style.display = 'none';
+  gameState = 'start';
+} );
+
 document.addEventListener( 'keyup', ( e ) => {
   if ( e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A' ) keys.left = false;
   if ( e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D' ) keys.right = false;
