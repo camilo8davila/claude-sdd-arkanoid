@@ -214,7 +214,14 @@ function checkPaddleCollision() {
   ball.dy = -speed * Math.cos( bounceAngle );
 }
 
+function updateExplosions( currentTime ) {
+  explosions = explosions.filter( ( explosion ) => currentTime - explosion.startTime < EXPLOSION_DURATION );
+}
+
 function update() {
+  const currentTime = performance.now();
+  updateExplosions( currentTime );
+
   if ( gameState === 'gameover' || gameState === 'win' ) return;
 
   updatePaddle();
