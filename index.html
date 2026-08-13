@@ -16,12 +16,32 @@
       background: #222;
       display: block;
     }
+    #pauseWrapper {
+      position: relative;
+    }
+    #levelSelect {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      font-size: 16px;
+      padding: 4px 8px;
+    }
   </style>
 </head>
 <body>
-  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <div id="pauseWrapper">
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <select id="levelSelect">
+      <option value="0">Nivel 1</option>
+      <option value="1">Nivel 2</option>
+      <option value="2">Nivel 3</option>
+    </select>
+  </div>
 
   <script src="assets/spritesheet.js"></script>
+  <script src="levels.js"></script>
   <script src="game.js"></script>
 </body>
 </html>

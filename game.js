@@ -56,27 +56,6 @@ const BLOCK_HEIGHT = 16;
 const BLOCK_OFFSET_TOP = 60;
 const BLOCK_OFFSET_LEFT = ( canvas.width - ( BLOCK_COLS * ( BLOCK_WIDTH + BLOCK_PADDING ) - BLOCK_PADDING ) ) / 2;
 
-const LEVELS = [
-  {
-    // Nivel 1: grid completo, sin huecos.
-    isExcluded: () => false,
-  },
-  {
-    // Nivel 2: hueco rectangular en el centro.
-    isExcluded: ( row, col ) => row >= 2 && row <= 4 && col >= 6 && col <= 8,
-  },
-  {
-    // Nivel 3: hueco en forma de diamante centrado en el grid.
-    isExcluded: ( row, col ) => {
-      const centerRow = ( BLOCK_ROWS - 1 ) / 2;
-      const centerCol = ( BLOCK_COLS - 1 ) / 2;
-      const halfWidth = 3 - Math.abs( row - centerRow );
-      if ( halfWidth < 0 ) return false;
-      return col >= centerCol - halfWidth && col <= centerCol + halfWidth;
-    },
-  },
-];
-
 let levelIndex = 0;
 
 function createBlocks( levelIndex ) {
@@ -103,9 +82,25 @@ let explosions = [];
 
 const keys = { left: false, right: false };
 
+const levelSelect = document.getElementById( 'levelSelect' );
+let previousGameState = null;
+
+function togglePause() {
+  if ( gameState === 'playing' ) {
+    previousGameState = gameState;
+    gameState = 'paused';
+    levelSelect.value = String( levelIndex );
+    levelSelect.style.display = 'block';
+  } else if ( gameState === 'paused' ) {
+    gameState = previousGameState;
+    levelSelect.style.display = 'none';
+  }
+}
+
 document.addEventListener( 'keydown', ( e ) => {
   if ( e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A' ) keys.left = true;
   if ( e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D' ) keys.right = true;
+  if ( e.key === 'p' || e.key === 'P' || e.key === 'Escape' ) togglePause();
 } );
 
 document.addEventListener( 'keyup', ( e ) => {
@@ -270,6 +265,8 @@ function updateExplosions( currentTime ) {
 }
 
 function update() {
+  if ( gameState === 'paused' ) return;
+
   const currentTime = performance.now();
   updateExplosions( currentTime );
 
@@ -324,6 +321,8 @@ function draw() {
     drawMessageScreen( 'Game Over', 'Haz clic para reiniciar' );
   } else if ( gameState === 'win' ) {
     drawMessageScreen( '¡Victoria!', 'Haz clic para reiniciar' );
+  } else if ( gameState === 'paused' ) {
+    drawMessageScreen( 'Pausa', 'P / Escape para continuar' );
   }
 }
 

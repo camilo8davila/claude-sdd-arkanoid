@@ -39,9 +39,9 @@
 
 ## Modelo de datos
 
-Se agregan las siguientes variables/estructuras a `game.js`:
+Se agrega un nuevo archivo `levels.js` (cargado vía `<script>` en `index.html` antes de `game.js`, igual que `assets/spritesheet.js`), y se agregan las siguientes variables/estructuras:
 
-- **`LEVELS`**: array de 3 definiciones de layout, una por nivel. Cada definición describe qué celdas `(row, col)` del grid base (`BLOCK_ROWS` x `BLOCK_COLS`) quedan excluidas (sin bloque) para ese nivel. Nivel 1 no excluye ninguna celda (layout actual).
+- **`LEVELS`** (definido en `levels.js`): array de 3 definiciones de layout, una por nivel. Cada definición describe qué celdas `(row, col)` del grid base (`BLOCK_ROWS` x `BLOCK_COLS`) quedan excluidas (sin bloque) para ese nivel, vía una función `isExcluded(row, col)`. Nivel 1 no excluye ninguna celda (layout actual).
 - **`levelIndex`**: number, 0-based, inicia en 0. El nivel mostrado al jugador es `levelIndex + 1`.
 - **`LEVEL_SPEED_MULTIPLIER`**: constante, `1.15`. La velocidad base de lanzamiento en `launchBall()` se multiplica por `LEVEL_SPEED_MULTIPLIER ** levelIndex`.
 - **`createBlocks(levelIndex)`**: se modifica la función existente para recibir `levelIndex` y omitir del array resultante las celdas excluidas por `LEVELS[levelIndex]`.
@@ -53,7 +53,7 @@ La pantalla de transición de nivel reutiliza el estado `'start'` existente (mis
 
 ## Plan de implementación
 
-1. Definir `LEVELS` (3 patrones de huecos) y `levelIndex = 0` en `game.js`. Modificar `createBlocks()` para aceptar `levelIndex` y excluir las celdas indicadas por `LEVELS[levelIndex]`. Llamar `createBlocks(levelIndex)` donde hoy se llama `createBlocks()`. En este punto el juego sigue funcionando igual que antes, solo con el nivel 1 (sin cambios visibles).
+1. Definir `LEVELS` (3 patrones de huecos, vía `isExcluded(row, col)`) en un archivo nuevo `levels.js`, cargado en `index.html` antes de `game.js`. Definir `levelIndex = 0` en `game.js`. Modificar `createBlocks()` para aceptar `levelIndex` y excluir las celdas indicadas por `LEVELS[levelIndex]`. Llamar `createBlocks(levelIndex)` donde hoy se llama `createBlocks()`. En este punto el juego sigue funcionando igual que antes, solo con el nivel 1 (sin cambios visibles).
 2. Aplicar `LEVEL_SPEED_MULTIPLIER ** levelIndex` a la velocidad base en `launchBall()`. En este punto el multiplicador existe pero no cambia nada visible porque `levelIndex` sigue en 0.
 3. En `checkBlockCollisions()`, donde hoy se hace `gameState = 'win'` al vaciar todos los bloques, distinguir: si `levelIndex < LEVELS.length - 1`, incrementar `levelIndex`, regenerar `blocks = createBlocks(levelIndex)`, reposicionar pelota/pala (`resetPaddleAndBall()`), limpiar `explosions`, y volver a `gameState = 'start'`; si es el último nivel, mantener el comportamiento actual (`gameState = 'win'`). En este punto, al vaciar el nivel 1 se ve el layout del nivel 2 y la pelota vuelve a la posición inicial, sin pantalla de transición todavía (usa el mensaje genérico de start).
 4. Modificar `drawStartScreen()` para mostrar mensaje dependiente de `levelIndex`: si `levelIndex === 0`, mantener "Arkanoid" / "Haz clic para jugar"; si `levelIndex > 0`, mostrar `Nivel ${levelIndex + 1}` / "Haz clic para continuar". En este punto, al pasar de nivel se ve la pantalla "Nivel 2" y la pelota no se mueve hasta hacer clic; al hacer clic se lanza con la velocidad multiplicada del nuevo nivel.
@@ -100,3 +100,4 @@ La pantalla de transición de nivel reutiliza el estado `'start'` existente (mis
 - **Menú de pausa es herramienta de debug/testing, no feature de jugador final**: se documenta explícitamente así para no invertir esfuerzo en pulir su UX/diseño visual; puede quedar accesible en el juego final igual, pero sin tratamiento especial.
 - **Saltar de nivel vía `<select>` no reinicia vidas/puntaje**, para poder probar un nivel específico repetidamente sin perder progreso de puntaje durante testing.
 - **Reanudar pausa sin usar el `<select>` no reposiciona pelota/pala**: la pausa solo congela el loop, no reinicia estado, a diferencia de un salto de nivel explícito.
+- **`LEVELS` definido en `levels.js` separado**, en lugar de vivir dentro de `game.js`, por decisión explícita del usuario durante la implementación, para aislar la definición de niveles del resto de la lógica del juego.
