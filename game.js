@@ -45,10 +45,35 @@ const BLOCK_HEIGHT = 16;
 const BLOCK_OFFSET_TOP = 60;
 const BLOCK_OFFSET_LEFT = ( canvas.width - ( BLOCK_COLS * ( BLOCK_WIDTH + BLOCK_PADDING ) - BLOCK_PADDING ) ) / 2;
 
-function createBlocks() {
+const LEVELS = [
+  {
+    // Nivel 1: grid completo, sin huecos.
+    isExcluded: () => false,
+  },
+  {
+    // Nivel 2: hueco rectangular en el centro.
+    isExcluded: ( row, col ) => row >= 2 && row <= 4 && col >= 6 && col <= 8,
+  },
+  {
+    // Nivel 3: hueco en forma de diamante centrado en el grid.
+    isExcluded: ( row, col ) => {
+      const centerRow = ( BLOCK_ROWS - 1 ) / 2;
+      const centerCol = ( BLOCK_COLS - 1 ) / 2;
+      const halfWidth = 3 - Math.abs( row - centerRow );
+      if ( halfWidth < 0 ) return false;
+      return col >= centerCol - halfWidth && col <= centerCol + halfWidth;
+    },
+  },
+];
+
+let levelIndex = 0;
+
+function createBlocks( levelIndex ) {
   const blocks = [];
+  const level = LEVELS[ levelIndex ];
   for ( let row = 0; row < BLOCK_ROWS; row++ ) {
     for ( let col = 0; col < BLOCK_COLS; col++ ) {
+      if ( level.isExcluded( row, col ) ) continue;
       blocks.push( {
         x: BLOCK_OFFSET_LEFT + col * ( BLOCK_WIDTH + BLOCK_PADDING ),
         y: BLOCK_OFFSET_TOP + row * ( BLOCK_HEIGHT + BLOCK_PADDING ),
@@ -62,7 +87,7 @@ function createBlocks() {
   return blocks;
 }
 
-let blocks = createBlocks();
+let blocks = createBlocks( levelIndex );
 let explosions = [];
 
 const keys = { left: false, right: false };
@@ -95,7 +120,7 @@ canvas.addEventListener( 'click', () => {
 function restartGame() {
   lives = 3;
   score = 0;
-  blocks = createBlocks();
+  blocks = createBlocks( levelIndex );
   explosions = [];
   resetPaddleAndBall();
   gameState = 'start';
