@@ -1,6 +1,6 @@
 # 01 - MVP Arkanoid jugable
 
-**Estado:** Approved
+**Estado:** Implemented
 **Depende de:** ninguno
 **Fecha:** 2026-08-11
 
@@ -58,16 +58,16 @@ No se introduce persistencia. El estado vive en memoria mientras dura la sesión
 
 ## Criterios de aceptación
 
-- [ ] Al abrir `index.html` en un navegador, se ve la pantalla de inicio con mensaje/botón "Jugar", sin errores en consola.
-- [ ] Al confirmar el inicio, la pelota comienza a moverse desde la pala.
-- [ ] La pala se mueve con flechas izquierda/derecha (o A/D) y también siguiendo el mouse sobre el canvas, sin salir de los límites del canvas.
-- [ ] La pelota rebota correctamente contra las paredes izquierda, derecha y superior.
-- [ ] La pelota rebota contra la pala con ángulo variable: golpear cerca del borde produce un rebote más lateral que golpear cerca del centro.
-- [ ] Al golpear un bloque, este desaparece inmediatamente y el puntaje mostrado en el HUD aumenta.
-- [ ] Cuando la pelota cae por debajo de la pala, se resta una vida (visible en el HUD) y pelota/pala vuelven a su posición inicial; los bloques ya rotos siguen rotos.
-- [ ] Al llegar a 0 vidas se muestra la pantalla de derrota con opción de reiniciar; al reiniciar, vidas, puntaje y bloques vuelven al estado inicial y el juego regresa a la pantalla de inicio o de juego según lo implementado.
-- [ ] Al romper todos los bloques se muestra la pantalla de victoria con opción de reiniciar, con el mismo comportamiento de reinicio.
-- [ ] El juego corre a 800x600 px sin necesidad de ningún paso de build (abrir `index.html` directamente o servirlo como archivos estáticos es suficiente).
+- [x] Al abrir `index.html` en un navegador, se ve la pantalla de inicio con mensaje/botón "Jugar", sin errores en consola.
+- [x] Al confirmar el inicio, la pelota comienza a moverse desde la pala.
+- [x] La pala se mueve con flechas izquierda/derecha (o A/D) y también siguiendo el mouse sobre el canvas, sin salir de los límites del canvas.
+- [x] La pelota rebota correctamente contra las paredes izquierda, derecha y superior.
+- [x] La pelota rebota contra la pala con ángulo variable: golpear cerca del borde produce un rebote más lateral que golpear cerca del centro.
+- [x] Al golpear un bloque, este desaparece inmediatamente y el puntaje mostrado en el HUD aumenta.
+- [x] Cuando la pelota cae por debajo de la pala, se resta una vida (visible en el HUD) y pelota/pala vuelven a su posición inicial; los bloques ya rotos siguen rotos.
+- [x] Al llegar a 0 vidas se muestra la pantalla de derrota con opción de reiniciar; al reiniciar, vidas, puntaje y bloques vuelven al estado inicial y el juego regresa a la pantalla de inicio o de juego según lo implementado.
+- [x] Al romper todos los bloques se muestra la pantalla de victoria con opción de reiniciar, con el mismo comportamiento de reinicio.
+- [x] El juego corre a 800x600 px sin necesidad de ningún paso de build (abrir `index.html` directamente o servirlo como archivos estáticos es suficiente).
 
 ## Decisiones tomadas y descartadas
 

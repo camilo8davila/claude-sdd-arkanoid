@@ -86,8 +86,18 @@ canvas.addEventListener( 'click', () => {
   if ( gameState === 'start' ) {
     gameState = 'playing';
     launchBall();
+  } else if ( gameState === 'gameover' || gameState === 'win' ) {
+    restartGame();
   }
 } );
+
+function restartGame() {
+  lives = 3;
+  score = 0;
+  blocks = createBlocks();
+  resetPaddleAndBall();
+  gameState = 'start';
+}
 
 function clamp( value, min, max ) {
   return Math.max( min, Math.min( max, value ) );
@@ -133,6 +143,7 @@ function loseLife() {
   }
 
   resetPaddleAndBall();
+  gameState = 'start';
 }
 
 const BLOCK_SCORE = 10;
@@ -230,10 +241,18 @@ function draw() {
 
   if ( gameState === 'start' ) {
     drawStartScreen();
+  } else if ( gameState === 'gameover' ) {
+    drawMessageScreen( 'Game Over', 'Haz clic para reiniciar' );
+  } else if ( gameState === 'win' ) {
+    drawMessageScreen( '¡Victoria!', 'Haz clic para reiniciar' );
   }
 }
 
 function drawStartScreen() {
+  drawMessageScreen( 'Arkanoid', 'Haz clic para jugar' );
+}
+
+function drawMessageScreen( title, subtitle ) {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
   ctx.fillRect( 0, 0, canvas.width, canvas.height );
 
@@ -241,10 +260,10 @@ function drawStartScreen() {
   ctx.textAlign = 'center';
 
   ctx.font = '36px sans-serif';
-  ctx.fillText( 'Arkanoid', canvas.width / 2, canvas.height / 2 - 60 );
+  ctx.fillText( title, canvas.width / 2, canvas.height / 2 - 60 );
 
   ctx.font = '20px sans-serif';
-  ctx.fillText( 'Haz clic para jugar', canvas.width / 2, canvas.height / 2 );
+  ctx.fillText( subtitle, canvas.width / 2, canvas.height / 2 );
 
   ctx.textAlign = 'left';
 }
