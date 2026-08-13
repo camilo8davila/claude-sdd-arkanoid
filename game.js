@@ -123,6 +123,7 @@ canvas.addEventListener( 'click', () => {
 function restartGame() {
   lives = 3;
   score = 0;
+  levelIndex = 0;
   blocks = createBlocks( levelIndex );
   explosions = [];
   resetPaddleAndBall();
