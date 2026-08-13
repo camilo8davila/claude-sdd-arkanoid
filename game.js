@@ -63,6 +63,7 @@ function createBlocks() {
 }
 
 let blocks = createBlocks();
+let explosions = [];
 
 const keys = { left: false, right: false };
 
@@ -95,6 +96,7 @@ function restartGame() {
   lives = 3;
   score = 0;
   blocks = createBlocks();
+  explosions = [];
   resetPaddleAndBall();
   gameState = 'start';
 }
@@ -161,6 +163,14 @@ function checkBlockCollisions() {
 
     block.alive = false;
     score += BLOCK_SCORE;
+    explosions.push( {
+      x: block.x,
+      y: block.y,
+      width: block.width,
+      height: block.height,
+      color: block.color,
+      startTime: performance.now(),
+    } );
 
     if ( blocks.every( ( b ) => !b.alive ) ) {
       gameState = 'win';
