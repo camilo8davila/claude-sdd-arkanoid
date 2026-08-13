@@ -313,7 +313,11 @@ function draw() {
 }
 
 function drawStartScreen() {
-  drawMessageScreen( 'Arkanoid', 'Haz clic para jugar' );
+  if ( levelIndex === 0 ) {
+    drawMessageScreen( 'Arkanoid', 'Haz clic para jugar' );
+  } else {
+    drawMessageScreen( `Nivel ${ levelIndex + 1 }`, 'Haz clic para continuar' );
+  }
 }
 
 function drawMessageScreen( title, subtitle ) {
