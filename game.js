@@ -25,9 +25,12 @@ function resetPaddleAndBall() {
   ball.dy = 0;
 }
 
+const LEVEL_SPEED_MULTIPLIER = 1.15;
+
 function launchBall() {
-  ball.dx = 4;
-  ball.dy = -4;
+  const speedFactor = LEVEL_SPEED_MULTIPLIER ** levelIndex;
+  ball.dx = 4 * speedFactor;
+  ball.dy = -4 * speedFactor;
 }
 
 resetPaddleAndBall();
