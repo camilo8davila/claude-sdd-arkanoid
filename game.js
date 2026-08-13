@@ -1,6 +1,14 @@
 const canvas = document.getElementById( 'gameCanvas' );
 const ctx = canvas.getContext( '2d' );
 
+const SOUND_BOUNCE = 'assets/sounds/ball-bounce.mp3';
+const SOUND_BREAK = 'assets/sounds/break-sound.mp3';
+
+function playSound( src ) {
+  const audio = new Audio( src );
+  audio.play();
+}
+
 const paddle = {
   x: canvas.width / 2 - SPRITES.paddle.sw / 2,
   y: canvas.height - 40,
@@ -147,14 +155,17 @@ function updateBall() {
   if ( ball.x - ball.radius <= 0 ) {
     ball.x = ball.radius;
     ball.dx *= -1;
+    playSound( SOUND_BOUNCE );
   } else if ( ball.x + ball.radius >= canvas.width ) {
     ball.x = canvas.width - ball.radius;
     ball.dx *= -1;
+    playSound( SOUND_BOUNCE );
   }
 
   if ( ball.y - ball.radius <= 0 ) {
     ball.y = ball.radius;
     ball.dy *= -1;
+    playSound( SOUND_BOUNCE );
   }
 
   checkPaddleCollision();
@@ -192,6 +203,7 @@ function checkBlockCollisions() {
 
     block.alive = false;
     score += BLOCK_SCORE;
+    playSound( SOUND_BREAK );
     explosions.push( {
       x: block.x,
       y: block.y,
@@ -238,6 +250,8 @@ function checkPaddleCollision() {
     && withinPaddleX;
 
   if ( !hitPaddle ) return;
+
+  playSound( SOUND_BOUNCE );
 
   ball.y = paddle.y - ball.radius;
 
