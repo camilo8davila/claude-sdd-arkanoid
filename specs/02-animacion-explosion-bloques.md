@@ -1,6 +1,6 @@
 # 02 - Animación de explosión de bloques
 
-**Estado:** Approved
+**Estado:** Done
 **Depende de:** SPEC 01
 **Fecha:** 2026-08-13
 
@@ -42,13 +42,13 @@ No se modifica la estructura de `block` (`{ x, y, width, height, color, alive }`
 
 ## Criterios de aceptación
 
-- [ ] Al golpear un bloque, este deja de colisionar con la pelota inmediatamente (mismo comportamiento que antes de este spec).
-- [ ] En el lugar del bloque golpeado se reproduce una secuencia de 4 frames de `EXPLOSION_FRAMES[color]` correspondiente al color del bloque, con duración total de 150ms.
-- [ ] Al terminar la animación, el bloque ya no se dibuja (ni como bloque sólido ni como frame de explosión).
-- [ ] El puntaje aumenta en el HUD en el momento del impacto, no al terminar la animación.
-- [ ] Romper dos o más bloques en rápida sucesión anima cada explosión de forma independiente, sin que una corte o reinicie a otra.
-- [ ] No hay errores en consola durante ninguna secuencia de explosión.
-- [ ] El resto de comportamiento del juego (física de pelota, pala, vidas, victoria/derrota) no cambia respecto al spec 01.
+- [x] Al golpear un bloque, este deja de colisionar con la pelota inmediatamente (mismo comportamiento que antes de este spec).
+- [x] En el lugar del bloque golpeado se reproduce una secuencia de 4 frames de `EXPLOSION_FRAMES[color]` correspondiente al color del bloque, con duración total de 150ms.
+- [x] Al terminar la animación, el bloque ya no se dibuja (ni como bloque sólido ni como frame de explosión).
+- [x] El puntaje aumenta en el HUD en el momento del impacto, no al terminar la animación.
+- [x] Romper dos o más bloques en rápida sucesión anima cada explosión de forma independiente, sin que una corte o reinicie a otra.
+- [x] No hay errores en consola durante ninguna secuencia de explosión.
+- [x] El resto de comportamiento del juego (física de pelota, pala, vidas, victoria/derrota) no cambia respecto al spec 01.
 
 ## Decisiones tomadas y descartadas
 
