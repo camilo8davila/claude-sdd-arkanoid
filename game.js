@@ -243,6 +243,15 @@ function drawHud() {
   ctx.fillText( `Vidas: ${ lives }`, canvas.width - 100, 10 );
 }
 
+function drawExplosions( currentTime ) {
+  const frameDuration = EXPLOSION_DURATION / 4;
+  explosions.forEach( ( explosion ) => {
+    const frameIndex = Math.min( 3, Math.floor( ( currentTime - explosion.startTime ) / frameDuration ) );
+    const frame = EXPLOSION_FRAMES[ explosion.color ][ frameIndex ];
+    drawFrame( ctx, frame, explosion.x, explosion.y, explosion.width, explosion.height );
+  } );
+}
+
 function draw() {
   ctx.clearRect( 0, 0, canvas.width, canvas.height );
 
@@ -250,6 +259,8 @@ function draw() {
     if ( !block.alive ) return;
     drawSprite( ctx, `block_${ block.color }`, block.x, block.y, block.width, block.height );
   } );
+
+  drawExplosions( performance.now() );
 
   drawSprite( ctx, 'paddle', paddle.x, paddle.y, paddle.width, paddle.height );
   drawSprite( ctx, 'ball', ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2 );
