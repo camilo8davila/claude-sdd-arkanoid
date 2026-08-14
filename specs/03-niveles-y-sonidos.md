@@ -1,6 +1,6 @@
 # 03 - Niveles y sonidos
 
-**Estado:** Approved
+**Estado:** Done
 **Depende de:** SPEC 01, SPEC 02
 **Fecha:** 2026-08-13
 
@@ -68,24 +68,24 @@ La pantalla de transición de nivel reutiliza el estado `'start'` existente (mis
 
 ## Criterios de aceptación
 
-- [ ] El nivel 1 tiene el mismo layout de bloques que existía antes de este spec.
-- [ ] Al romper todos los bloques del nivel 1, se muestra una pantalla "Nivel 2" con "Haz clic para continuar"; la pelota no se mueve hasta hacer clic.
-- [ ] Tras hacer clic en la pantalla "Nivel 2", aparece el layout distinto del nivel 2 y la pelota se lanza a mayor velocidad que en el nivel 1.
-- [ ] Al romper todos los bloques del nivel 2, se repite el mismo flujo con "Nivel 3" y un layout distinto, con velocidad aún mayor.
-- [ ] Al romper todos los bloques del nivel 3, se muestra la pantalla de victoria final existente (no una pantalla de "Nivel 4").
-- [ ] Vidas y puntaje no se reinician al pasar de nivel 1 a 2 ni de 2 a 3.
-- [ ] Si el jugador pierde todas las vidas en cualquier nivel, se muestra game over (comportamiento sin cambios respecto al spec 01/02).
-- [ ] Al reiniciar desde game over o desde la victoria final, el juego vuelve al nivel 1, con vidas y puntaje en su estado inicial.
-- [ ] Cada rebote de la pelota contra una pared (izquierda, derecha, arriba) reproduce el sonido `ball-bounce.mp3`.
-- [ ] Cada rebote de la pelota contra la pala reproduce el sonido `ball-bounce.mp3`.
-- [ ] Cada bloque roto reproduce el sonido `break-sound.mp3` en el mismo instante en que se suma el puntaje y comienza la animación de explosión.
-- [ ] Romper varios bloques o rebotar varias veces en rápida sucesión reproduce los sonidos superpuestos, sin que uno corte o silencie a otro.
-- [ ] No hay ningún control de volumen/mute visible en la UI.
-- [ ] Presionar `P` o `Escape` durante `'playing'` pausa el juego: pelota y pala se congelan, y aparece el `<select>` con el nivel actual seleccionado.
-- [ ] Presionar `P` o `Escape` de nuevo mientras está en pausa, sin tocar el `<select>`, reanuda exactamente desde donde quedó (misma posición de pelota/pala, mismas vidas/puntaje/bloques rotos).
-- [ ] Elegir un nivel distinto en el `<select>` durante la pausa salta directo a ese nivel: nuevo layout, pelota/pala reposicionadas, vidas y puntaje sin cambios, con la pantalla "Nivel N" pidiendo clic para lanzar.
-- [ ] El `<select>` no es visible ni interactuable fuera del estado de pausa.
-- [ ] No hay errores en consola durante una partida completa de los 3 niveles, incluyendo pausas, saltos de nivel vía select, victoria final y reinicio.
+- [x] El nivel 1 tiene el mismo layout de bloques que existía antes de este spec.
+- [x] Al romper todos los bloques del nivel 1, se muestra una pantalla "Nivel 2" con "Haz clic para continuar"; la pelota no se mueve hasta hacer clic.
+- [x] Tras hacer clic en la pantalla "Nivel 2", aparece el layout distinto del nivel 2 y la pelota se lanza a mayor velocidad que en el nivel 1.
+- [x] Al romper todos los bloques del nivel 2, se repite el mismo flujo con "Nivel 3" y un layout distinto, con velocidad aún mayor.
+- [x] Al romper todos los bloques del nivel 3, se muestra la pantalla de victoria final existente (no una pantalla de "Nivel 4").
+- [x] Vidas y puntaje no se reinician al pasar de nivel 1 a 2 ni de 2 a 3.
+- [x] Si el jugador pierde todas las vidas en cualquier nivel, se muestra game over (comportamiento sin cambios respecto al spec 01/02).
+- [x] Al reiniciar desde game over o desde la victoria final, el juego vuelve al nivel 1, con vidas y puntaje en su estado inicial.
+- [x] Cada rebote de la pelota contra una pared (izquierda, derecha, arriba) reproduce el sonido `ball-bounce.mp3`.
+- [x] Cada rebote de la pelota contra la pala reproduce el sonido `ball-bounce.mp3`.
+- [x] Cada bloque roto reproduce el sonido `break-sound.mp3` en el mismo instante en que se suma el puntaje y comienza la animación de explosión.
+- [x] Romper varios bloques o rebotar varias veces en rápida sucesión reproduce los sonidos superpuestos, sin que uno corte o silencie a otro.
+- [x] No hay ningún control de volumen/mute visible en la UI.
+- [x] Presionar `P` o `Escape` durante `'playing'` pausa el juego: pelota y pala se congelan, y aparece el `<select>` con el nivel actual seleccionado.
+- [x] Presionar `P` o `Escape` de nuevo mientras está en pausa, sin tocar el `<select>`, reanuda exactamente desde donde quedó (misma posición de pelota/pala, mismas vidas/puntaje/bloques rotos).
+- [x] Elegir un nivel distinto en el `<select>` durante la pausa salta directo a ese nivel: nuevo layout, pelota/pala reposicionadas, vidas y puntaje sin cambios, con la pantalla "Nivel N" pidiendo clic para lanzar.
+- [x] El `<select>` no es visible ni interactuable fuera del estado de pausa.
+- [x] No hay errores en consola durante una partida completa de los 3 niveles, incluyendo pausas, saltos de nivel vía select, victoria final y reinicio.
 
 ## Decisiones tomadas y descartadas
 
